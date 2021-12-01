@@ -22,6 +22,7 @@ import { AssignmentDetailComponent } from './assignments/assignment-detail/assig
 import { AddAssignmentComponent } from './assignments/add-assignment/add-assignment.component';
 
 import { routes } from './app.routing';
+import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,7 +30,8 @@ import { routes } from './app.routing';
     RenduDirective,
     NonrenduDirective,
     AssignmentDetailComponent,
-    AddAssignmentComponent
+    AddAssignmentComponent,
+    EditAssignmentComponent
   ],
   imports: [
     BrowserModule, FormsModule,

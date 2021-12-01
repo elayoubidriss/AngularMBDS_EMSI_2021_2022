@@ -12,7 +12,7 @@
     <nav>
       <a routerLink="/assignment/{{assignment.id}}">
         <h3 mat-subheader>{{assignment.dateDeRendu | date}}</h3>
-        <mat-list-item (click)="assignmentClique(assignment)">
+        <mat-list-item>
           <p *ngIf="assignment.rendu; else nonsoumis">
             <span appRendu>{{i}} - {{assignment.nom}}.</span>
           </p>
@@ -28,7 +28,9 @@
     <mat-divider></mat-divider>
   </mat-list>
   <p></p>
+  <!--
   <app-assignment-detail [assignmentTransmis]="assignmentSelectionne">
 
   </app-assignment-detail>
+  -->
 </main>

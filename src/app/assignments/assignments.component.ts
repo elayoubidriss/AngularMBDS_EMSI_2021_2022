@@ -10,7 +10,6 @@ import { Assignment } from './assignment.model';
 export class AssignmentsComponent implements OnInit {
   couleur = 'orange';
   ajoutActive = false;
-  assignmentSelectionne?:Assignment;
 
   assignments:Assignment[] = [];
 
@@ -29,26 +28,5 @@ export class AssignmentsComponent implements OnInit {
     .subscribe(assignments => {
       this.assignments = assignments;
     });
-  }
-
-  getCouleur(i:number) {
-    if(i == 1)
-      return 'orange';
-    else
-      return 'blue';
-  }
-
-
-  assignmentClique(assignment:Assignment) {
-    console.log("Assignment cliqué : " + assignment.nom);
-    this.assignmentSelectionne =assignment;
-  }
-
-  onNouvelAssignment(assignment:Assignment) {
-    //this.assignments.push(assignment);
-    this.assignmentsService.addAssignment(assignment)
-    .subscribe(message => {
-      console.log(message);
-    })
   }
 }

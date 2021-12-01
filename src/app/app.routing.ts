@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 import { AddAssignmentComponent } from "./assignments/add-assignment/add-assignment.component";
 import { AssignmentDetailComponent } from "./assignments/assignment-detail/assignment-detail.component";
 import { AssignmentsComponent } from "./assignments/assignments.component";
+import { EditAssignmentComponent } from "./assignments/edit-assignment/edit-assignment.component";
 
 const routes:Routes = [
   {
@@ -19,6 +20,10 @@ const routes:Routes = [
   {
     path:"assignment/:id",
     component:AssignmentDetailComponent
+  },
+  {
+    path:"assignment/:id/edit",
+    component:EditAssignmentComponent
   },
   // appelé lorsque aucune route n'a matché...
   {

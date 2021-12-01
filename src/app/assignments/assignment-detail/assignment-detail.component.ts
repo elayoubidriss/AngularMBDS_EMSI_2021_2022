@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { Assignment } from '../assignment.model';
 
@@ -8,11 +9,24 @@ import { Assignment } from '../assignment.model';
   styleUrls: ['./assignment-detail.component.css'],
 })
 export class AssignmentDetailComponent implements OnInit {
-  @Input() assignmentTransmis?: Assignment;
+  assignmentTransmis?: Assignment;
 
-  constructor(private assignmentsService: AssignmentsService) {}
+  constructor(private assignmentsService: AssignmentsService,
+              private route:ActivatedRoute,
+              private router:Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // on va récupérer l'id de l'assignment dans l'URL...
+    // + force la conversion de string vers number
+    let id:number= +this.route.snapshot.params['id'];
+
+    console.log("DANS COMPOSANT DETAIL id = " + id);
+
+    this.assignmentsService.getAssignment(id)
+    .subscribe(assignment => {
+      this.assignmentTransmis = assignment;
+    })
+  }
 
   onAssignmentRendu() {
     if (this.assignmentTransmis) this.assignmentTransmis.rendu = true;
@@ -21,7 +35,11 @@ export class AssignmentDetailComponent implements OnInit {
       .updateAssignment(this.assignmentTransmis)
       .subscribe((message) => {
         console.log(message);
+
+        // on revient à la page d'accueil
+        this.router.navigate(["/home"]);
       });
+
   }
 
   onDelete() {
@@ -33,6 +51,22 @@ export class AssignmentDetailComponent implements OnInit {
         });
       // on cache l'affichage du detail puisqu'il a été supprimé
       this.assignmentTransmis = undefined;
+
+      // on retourne à la page d'accueil APRES qu'on soit sur
+      // que la suppression ait bien été effectuée
+      this.router.navigate(["/home"]);
     }
+  }
+
+  onClickEdit() {
+    this.router.navigate(["/assignment", this.assignmentTransmis?.id, "edit"],
+                        {
+                          queryParams: {
+                            nom:"TOTO",
+                            prenom:"TITI",
+                            age:50
+                          },
+                          fragment:"edit"
+                        });
   }
 }

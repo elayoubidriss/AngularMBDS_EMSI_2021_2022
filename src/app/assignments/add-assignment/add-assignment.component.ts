@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { Assignment } from '../assignment.model';
 
@@ -12,7 +13,8 @@ export class AddAssignmentComponent implements OnInit {
   nomAssignment?: string = '';
   dateDeRendu?: Date;
 
-  constructor(private assignmentsService:AssignmentsService) {}
+  constructor(private assignmentsService:AssignmentsService,
+              private router:Router) {}
 
   ngOnInit(): void {}
 
@@ -37,6 +39,7 @@ export class AddAssignmentComponent implements OnInit {
         // afficher la liste avec le nouvel assignment inséré
 
         // Ah, comment on fait ?
+        this.router.navigate(["/home"]);
       })
     }
   }
