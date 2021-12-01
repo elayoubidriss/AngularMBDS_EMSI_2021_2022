@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from './shared/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +9,14 @@ import { Component } from '@angular/core';
 
 export class AppComponent {
   titre = 'Application de gestion des assignments';
+
+  constructor(private authService:AuthService) {}
+
+  loginLogout() {
+    if(this.authService.loggedIn) {
+      this.authService.logOut();
+    } else {
+      this.authService.logIn();
+    }
+  }
 }

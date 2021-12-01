@@ -10,6 +10,8 @@ import { MatNativeDateModule } from '@angular/material/core'
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -37,7 +39,7 @@ import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assi
     BrowserModule, FormsModule,
     BrowserAnimationsModule, MatButtonModule, MatIconModule, MatDividerModule,
     MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule,
-    MatListModule, MatCardModule, MatCheckboxModule,
+    MatListModule, MatCardModule, MatCheckboxModule, MatSlideToggleModule,
     RouterModule.forRoot(routes)
   ],
   providers: [],

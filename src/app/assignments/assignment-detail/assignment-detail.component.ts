@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
+import { AuthService } from 'src/app/shared/auth.service';
 import { Assignment } from '../assignment.model';
 
 @Component({
@@ -13,7 +14,8 @@ export class AssignmentDetailComponent implements OnInit {
 
   constructor(private assignmentsService: AssignmentsService,
               private route:ActivatedRoute,
-              private router:Router) {}
+              private router:Router,
+              private authService:AuthService) {}
 
   ngOnInit(): void {
     // on va récupérer l'id de l'assignment dans l'URL...
@@ -68,5 +70,9 @@ export class AssignmentDetailComponent implements OnInit {
                           },
                           fragment:"edit"
                         });
+  }
+
+  isAdmin() {
+    return this.authService.loggedIn;
   }
 }
