@@ -31,8 +31,8 @@ export class AddAssignmentComponent implements OnInit {
       newAssignement.id = Math.round(Math.random()*10000000);
 
       this.assignmentsService.addAssignment(newAssignement)
-      .subscribe(message => {
-        console.log(message);
+      .subscribe(reponse => {
+        console.log(reponse.message);
 
         // on est sur que l'ajout a bien été effectué
         // il reste à naviguer vers la page d'accueil pour

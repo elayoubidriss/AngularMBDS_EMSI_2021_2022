@@ -50,8 +50,8 @@ export class EditAssignmentComponent implements OnInit {
     }
     this.assignmentsService
       .updateAssignment(this.assignment)
-      .subscribe((message) => {
-        console.log(message);
+      .subscribe((reponse) => {
+        console.log(reponse.message);
 
         // navigation vers la home page
         this.router.navigate(['/home']);
