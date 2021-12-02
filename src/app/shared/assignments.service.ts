@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Assignment } from '../assignments/assignment.model';
@@ -7,31 +8,17 @@ import { LoggingService } from './logging.service';
   providedIn: 'root'
 })
 export class AssignmentsService {
-  assignments:Assignment[] = [
-    {
-      id:0,
-      nom:"Devoir Angular BUFFA",
-      dateDeRendu: new Date("2021-12-18"),
-      rendu : false
-    },
-    {
-      id:1,
-      nom:"Devoir BD MOPOLO",
-      dateDeRendu: new Date("2021-10-10"),
-      rendu : true
-    },
-    {
-      id:2,
-      nom:"Devoir Gestion projet Mr Michel Winter",
-      dateDeRendu: new Date("2022-01-20"),
-      rendu : false
-    }
-  ];
+  assignments:Assignment[] = [];
 
-  constructor(private loggingService:LoggingService) { }
+  constructor(private loggingService:LoggingService,
+    private http:HttpClient) { }
+
+    url = 'http://localhost:8010/api/assignments';
 
   getAssignments():Observable<Assignment[]> {
-    return of(this.assignments);
+    //return of(this.assignments);
+
+    return this.http.get<Assignment[]>(this.url);
   }
 
   getAssignment(id:number):Observable<Assignment|undefined> {
