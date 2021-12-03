@@ -14,7 +14,7 @@ export class AssignmentsService {
     private http:HttpClient) { }
 
     //url = 'http://localhost:8010/api/assignments';
-    url = 'https://api-mbds-2021-2022.herokuapp.com/api/assignments';
+    url = 'https://elayoubi-assignments-back.herokuapp.com/api/assignments';
 
   getAssignments():Observable<Assignment[]> {
     //return of(this.assignments);
