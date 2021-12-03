@@ -16,3 +16,8 @@
 .ajouterBtn {
   align-self: flex-end;
 }
+
+.container2 {
+  display:flex;
+  flex-direction: row;
+}

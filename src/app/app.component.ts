@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AssignmentsService } from './shared/assignments.service';
 import { AuthService } from './shared/auth.service';
 
 @Component({
@@ -10,7 +12,9 @@ import { AuthService } from './shared/auth.service';
 export class AppComponent {
   titre = 'Application de gestion des assignments';
 
-  constructor(private authService:AuthService) {}
+  constructor(private authService:AuthService,
+              private assignmentsService:AssignmentsService,
+              private router:Router) {}
 
   loginLogout() {
     if(this.authService.loggedIn) {
@@ -18,5 +22,15 @@ export class AppComponent {
     } else {
       this.authService.logIn();
     }
+  }
+
+  genererDonneesDeTest() {
+    this.assignmentsService.peuplerBDAvecForkJoin()
+    .subscribe(() => {
+      // ok, les 1000 données ont bien été insérées...
+      console.log("TOUTES LES DONNEES ONT BIEN ETE INSEREES");
+
+      this.router.navigate(["/home"]);
+    });
   }
 }
