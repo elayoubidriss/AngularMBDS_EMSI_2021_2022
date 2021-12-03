@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ignoreElements } from 'rxjs';
 import { AssignmentsService } from '../shared/assignments.service';
+import { AuthService } from '../shared/auth.service';
 import { Assignment } from './assignment.model';
 
 @Component({
@@ -26,7 +27,8 @@ export class AssignmentsComponent implements OnInit {
   hasNextPage: boolean=false;
   nextPage: number = 0;
 
-  constructor(private assignmentsService: AssignmentsService) {}
+  constructor(private assignmentsService: AssignmentsService,
+              private authService:AuthService) {}
 
   ngOnInit(): void {
     console.log('Appelé avant affichage');
@@ -75,5 +77,9 @@ export class AssignmentsComponent implements OnInit {
   premierePage() {
     this.page = 1;
     this.getAssignments();
+  }
+
+  deco() {
+    this.authService.logOut();
   }
 }
