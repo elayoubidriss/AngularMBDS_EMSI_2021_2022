@@ -4,6 +4,7 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { Assignment } from '../assignments/assignment.model';
 import { LoggingService } from './logging.service';
 import { bdInitialAssignments } from './data';
+import { PageEvent } from '@angular/material/paginator';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,8 +14,8 @@ export class AssignmentsService {
   constructor(private loggingService:LoggingService,
     private http:HttpClient) { }
 
-    //url = 'http://localhost:8010/api/assignments';
-    url = 'https://elayoubi-assignments-back.herokuapp.com/api/assignments';
+    url = 'http://localhost:8010/api/assignments';
+   //url = 'https://elayoubi-assignments-back.herokuapp.com/api/assignments';
 
   getAssignments():Observable<Assignment[]> {
     //return of(this.assignments);
@@ -26,6 +27,15 @@ export class AssignmentsService {
     //return of(this.assignments);
 
     return this.http.get<Assignment[]>(`${this.url}?page=${page}&limit=${limit}`);
+  }
+
+  getAssignmentEvent(event?: PageEvent):Observable<any> {
+    if(event) {
+      return this.http.get<Assignment[]>(`${this.url}?page=${event?.pageIndex+1}&limit=${event?.pageSize}`);
+    }
+    else {
+      return of();
+    }
   }
 
   getAssignment(id:number):Observable<Assignment|undefined> {

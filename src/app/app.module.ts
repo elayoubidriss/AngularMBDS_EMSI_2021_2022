@@ -15,7 +15,7 @@ import { MatSliderModule } from '@angular/material/slider';
 
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-
+import { MatSortModule } from '@angular/material/sort'
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AssignmentsComponent } from './assignments/assignments.component';
@@ -24,9 +24,11 @@ import { NonrenduDirective } from './shared/nonrendu.directive';
 import { FormsModule } from '@angular/forms';
 import { AssignmentDetailComponent } from './assignments/assignment-detail/assignment-detail.component';
 import { AddAssignmentComponent } from './assignments/add-assignment/add-assignment.component';
-
+import { MatTableModule } from '@angular/material/table';
 import { routes } from './app.routing';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment.component';
+import { AppyLoginComponent } from './assignments/appy-login/appy-login.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,15 +37,16 @@ import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assi
     NonrenduDirective,
     AssignmentDetailComponent,
     AddAssignmentComponent,
-    EditAssignmentComponent
+    EditAssignmentComponent,
+    AppyLoginComponent
   ],
   imports: [
     BrowserModule, FormsModule,
     BrowserAnimationsModule, MatButtonModule, MatIconModule, MatDividerModule,
     MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule,
     MatListModule, MatCardModule, MatCheckboxModule, MatSlideToggleModule,
-    MatSliderModule,
-    HttpClientModule,
+    MatSliderModule,MatTableModule, MatSortModule,
+    HttpClientModule, MatPaginatorModule,
     RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})
   ],
   providers: [],

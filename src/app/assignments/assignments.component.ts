@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { AfterViewInit, ViewChild, Component, OnInit } from '@angular/core';
+import { MatSort, Sort } from '@angular/material/sort';
 import { ignoreElements } from 'rxjs';
 import { AssignmentsService } from '../shared/assignments.service';
 import { AuthService } from '../shared/auth.service';
 import { Assignment } from './assignment.model';
+import {PageEvent, MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-assignments',
@@ -27,15 +30,28 @@ export class AssignmentsComponent implements OnInit {
   hasNextPage: boolean=false;
   nextPage: number = 0;
 
+  displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu'];
+
+  pageEvent?: PageEvent;
+  dataSource: any;
+  pageIndex = 1;
+  length = 100;
+  pageSize = 20;
+  pageSizeOptions: number[] = [5, 10, 25, 50];
+
   constructor(private assignmentsService: AssignmentsService,
-              private authService:AuthService) {}
+              private authService:AuthService,
+              private _liveAnnouncer: LiveAnnouncer) {}
+
+  @ViewChild(MatSort) sort: MatSort = new MatSort();
 
   ngOnInit(): void {
     console.log('Appelé avant affichage');
     // appelée avant l'affichage du composant
     // on demande les donnnées au service de gestion des assignments
-
     this.getAssignments();
+    this.getEvent(this.pageEvent);
+    this.pageEvent = this.getEvent();
   }
 
   getAssignments() {
@@ -51,6 +67,25 @@ export class AssignmentsComponent implements OnInit {
        this.nextPage = data.nextPage;
        console.log("données reçues");
     });
+  }
+
+  getEvent(event?:PageEvent){
+    this.assignmentsService.getAssignmentEvent(event).subscribe(
+      response =>{
+        if(response.error) {
+          console.log(response);
+        } else {
+          if(this.pageEvent) {
+            this.dataSource = response.docs;
+            this.length = this.totalDocs;
+          }
+        }
+      },
+      error =>{
+        console.log("erreur");
+      }
+    );
+    return event;
   }
 
   changeLimit() {
@@ -81,5 +116,23 @@ export class AssignmentsComponent implements OnInit {
 
   deco() {
     this.authService.logOut();
+  }
+
+  announceSortChange(sortState: Sort) {
+    // This example uses English messages. If your application supports
+    // multiple language, you would internationalize these strings.
+    // Furthermore, you can customize the message to add additional
+    // details about the values being sorted.
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
+
+  setPageSizeOptions(setPageSizeOptionsInput: string) {
+    if (setPageSizeOptionsInput) {
+      this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+    }
   }
 }

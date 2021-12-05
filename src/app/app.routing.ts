@@ -1,5 +1,6 @@
 import { Routes } from "@angular/router";
 import { AddAssignmentComponent } from "./assignments/add-assignment/add-assignment.component";
+import { AppyLoginComponent } from "./assignments/appy-login/appy-login.component";
 import { AssignmentDetailComponent } from "./assignments/assignment-detail/assignment-detail.component";
 import { AssignmentsComponent } from "./assignments/assignments.component";
 import { EditAssignmentComponent } from "./assignments/edit-assignment/edit-assignment.component";
@@ -8,7 +9,7 @@ import { AuthGuard } from "./shared/auth.guard";
 const routes:Routes = [
   {
     path:"",
-    component:AssignmentsComponent
+    component:AppyLoginComponent
   },
   {
     path:"home",
