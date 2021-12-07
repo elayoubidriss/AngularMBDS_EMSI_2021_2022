@@ -23,6 +23,15 @@ export class AppComponent {
       this.authService.logIn();
     }
   }
+  
+  deco() {
+    this.authService.logOut();
+  }
+
+  checkLog() {
+    return this.authService.loggedIn;
+  }
+
 
   genererDonneesDeTest() {
     this.assignmentsService.peuplerBDAvecForkJoin()

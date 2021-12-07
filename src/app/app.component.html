@@ -6,8 +6,20 @@
 <!--
   <mat-slide-toggle (click)="loginLogout()">Login</mat-slide-toggle>
 -->
-<button mat-raised-button color="primary" (click)="genererDonneesDeTest()">Peupler BD</button>
-
+<main class="container">
+<div class="ajouterBtn">
+  <a routerLink="" *ngIf="checkLog()">
+    <button mat-flat-button color="accent" (click)="deco()">
+      Deconnexion
+    </button>
+  </a>
+  <a routerLink="" *ngIf="!checkLog()">
+    <button mat-flat-button color="primary">
+      Se connecter
+    </button>
+  </a>
+</div>
+</main>
 <router-outlet></router-outlet>
 <!--
   <app-assignments></app-assignments>

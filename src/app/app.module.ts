@@ -27,8 +27,10 @@ import { AddAssignmentComponent } from './assignments/add-assignment/add-assignm
 import { MatTableModule } from '@angular/material/table';
 import { routes } from './app.routing';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
 import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment.component';
 import { AppyLoginComponent } from './assignments/appy-login/appy-login.component';
+import { DialogContentComponentComponent } from './assignments/dialog-content-component/dialog-content-component.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +40,8 @@ import { AppyLoginComponent } from './assignments/appy-login/appy-login.componen
     AssignmentDetailComponent,
     AddAssignmentComponent,
     EditAssignmentComponent,
-    AppyLoginComponent
+    AppyLoginComponent,
+    DialogContentComponentComponent
   ],
   imports: [
     BrowserModule, FormsModule,
@@ -46,7 +49,7 @@ import { AppyLoginComponent } from './assignments/appy-login/appy-login.componen
     MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule,
     MatListModule, MatCardModule, MatCheckboxModule, MatSlideToggleModule,
     MatSliderModule,MatTableModule, MatSortModule,
-    HttpClientModule, MatPaginatorModule,
+    HttpClientModule, MatPaginatorModule, MatDialogModule,
     RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})
   ],
   providers: [],

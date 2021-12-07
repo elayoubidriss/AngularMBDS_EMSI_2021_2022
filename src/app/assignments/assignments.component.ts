@@ -1,11 +1,14 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { AfterViewInit, ViewChild, Component, OnInit } from '@angular/core';
-import { MatSort, Sort } from '@angular/material/sort';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Sort } from '@angular/material/sort';
 import { ignoreElements } from 'rxjs';
 import { AssignmentsService } from '../shared/assignments.service';
 import { AuthService } from '../shared/auth.service';
 import { Assignment } from './assignment.model';
-import {PageEvent, MatPaginator} from '@angular/material/paginator';
+import {PageEvent} from '@angular/material/paginator';
+import { Router } from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
+import { DialogContentComponentComponent } from './dialog-content-component/dialog-content-component.component';
 
 @Component({
   selector: 'app-assignments',
@@ -30,20 +33,25 @@ export class AssignmentsComponent implements OnInit {
   hasNextPage: boolean=false;
   nextPage: number = 0;
 
-  displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu'];
+  displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu', 'update', 'delete'];
 
   pageEvent?: PageEvent;
-  dataSource: any;
   pageIndex = 1;
   length = 100;
   pageSize = 20;
   pageSizeOptions: number[] = [5, 10, 25, 50];
 
+  dataSource: Assignment[] = [];
+  dataSourceSorted: Assignment[] = [];
+
+
   constructor(private assignmentsService: AssignmentsService,
               private authService:AuthService,
-              private _liveAnnouncer: LiveAnnouncer) {}
-
-  @ViewChild(MatSort) sort: MatSort = new MatSort();
+              private _liveAnnouncer: LiveAnnouncer,
+              private router: Router,
+              private dialog: MatDialog,
+              private dialogComponent: DialogContentComponentComponent) {
+              }
 
   ngOnInit(): void {
     console.log('Appelé avant affichage');
@@ -77,6 +85,7 @@ export class AssignmentsComponent implements OnInit {
         } else {
           if(this.pageEvent) {
             this.dataSource = response.docs;
+            this.dataSourceSorted = response.docs.slice();
             this.length = this.totalDocs;
           }
         }
@@ -114,25 +123,71 @@ export class AssignmentsComponent implements OnInit {
     this.getAssignments();
   }
 
-  deco() {
-    this.authService.logOut();
-  }
-
-  announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
-
   setPageSizeOptions(setPageSizeOptionsInput: string) {
     if (setPageSizeOptionsInput) {
       this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
     }
   }
+
+  sortData(sort: Sort) {
+    const data = this.dataSourceSorted.slice();
+    if (!sort.active || sort.direction === '') {
+      this.dataSourceSorted = data;
+      return;
+    }
+
+    this.dataSourceSorted = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'id':
+          return this.compare(a.nom, b.nom, isAsc);
+        case 'nom':
+          return this.compare(a.id, b.id, isAsc);
+        case 'dateDeRendu':
+          return this.compare(a.dateDeRendu, b.dateDeRendu, isAsc);
+        default:
+          return 0;
+      }
+    });
+  }
+
+  compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }
+
+  onDelete(assignment?:Assignment) {
+    if (assignment) {
+      this.assignmentsService
+        .deleteAssignment(assignment)
+        .subscribe((reponse) => {
+          console.log(reponse.message);
+          // on retourne à la page d'accueil APRES qu'on soit sur
+          // que la suppression ait bien été effectuée
+          this.router.navigate(['/home']);
+        });
+      // on cache l'affichage du detail puisqu'il a été supprimé
+      assignment = undefined;
+    }
+  }
+
+  onClickEdit(assignment?:Assignment) {
+    this.router.navigate(['/assignment', assignment?.id, 'edit'], {
+      queryParams: {
+        nom: 'TOTO',
+        prenom: 'TITI',
+        age: 50,
+      },
+      fragment: 'edit',
+    });
+  }
+
+  openDialog(assignment?:Assignment) {
+    let dialogRef = this.dialog.open(DialogContentComponentComponent);
+    dialogRef.componentInstance.assignmentDelete = assignment;
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
 }
+
+
