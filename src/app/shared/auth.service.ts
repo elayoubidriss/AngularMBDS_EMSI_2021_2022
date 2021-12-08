@@ -5,7 +5,16 @@ import { Injectable } from '@angular/core';
 })
 export class AuthService {
   loggedIn = false;
-
+  credentials = [
+    {
+      "username": "user1",
+      "password": "user1Password"
+    },
+    {
+      "username": "user2",
+      "password": "user2Password"
+    }
+  ];
   constructor() { }
 
   logIn() {

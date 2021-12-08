@@ -1,25 +1,12 @@
 <h1>
-  <nav>
-    <a routerLink="/home">{{titre}}</a>
-  </nav>
+  <div style="width: 100%;">
+    <a routerLink="/home" style="text-align: center;">{{titre}}</a>
+  </div>
 </h1>
 <!--
   <mat-slide-toggle (click)="loginLogout()">Login</mat-slide-toggle>
 -->
-<main class="container">
-<div class="ajouterBtn">
-  <a routerLink="" *ngIf="checkLog()">
-    <button mat-flat-button color="accent" (click)="deco()">
-      Deconnexion
-    </button>
-  </a>
-  <a routerLink="" *ngIf="!checkLog()">
-    <button mat-flat-button color="primary">
-      Se connecter
-    </button>
-  </a>
-</div>
-</main>
+<app-log-buttons></app-log-buttons>
 <router-outlet></router-outlet>
 <!--
   <app-assignments></app-assignments>

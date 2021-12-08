@@ -1,6 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Sort } from '@angular/material/sort';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatSort,Sort } from '@angular/material/sort';
 import { ignoreElements } from 'rxjs';
 import { AssignmentsService } from '../shared/assignments.service';
 import { AuthService } from '../shared/auth.service';
@@ -9,13 +9,14 @@ import {PageEvent} from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import { DialogContentComponentComponent } from './dialog-content-component/dialog-content-component.component';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-assignments',
   templateUrl: './assignments.component.html',
   styleUrls: ['./assignments.component.css'],
 })
-export class AssignmentsComponent implements OnInit {
+export class AssignmentsComponent implements OnInit, AfterViewInit {
   couleur = 'orange';
   ajoutActive = false;
 
@@ -36,14 +37,14 @@ export class AssignmentsComponent implements OnInit {
   displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu', 'update', 'delete'];
 
   pageEvent?: PageEvent;
-  pageIndex = 1;
+  pageIndex = 0;
   length = 100;
   pageSize = 20;
   pageSizeOptions: number[] = [5, 10, 25, 50];
 
-  dataSource: Assignment[] = [];
-  dataSourceSorted: Assignment[] = [];
+  dataSource = new MatTableDataSource<Assignment>();
 
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private assignmentsService: AssignmentsService,
               private authService:AuthService,
@@ -60,6 +61,13 @@ export class AssignmentsComponent implements OnInit {
     this.getAssignments();
     this.getEvent(this.pageEvent);
     this.pageEvent = this.getEvent();
+    this.assignmentsService.getAssignmentsPagine(0,20).subscribe((data)=>{
+      this.dataSource = data.docs;
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
   }
 
   getAssignments() {
@@ -85,7 +93,6 @@ export class AssignmentsComponent implements OnInit {
         } else {
           if(this.pageEvent) {
             this.dataSource = response.docs;
-            this.dataSourceSorted = response.docs.slice();
             this.length = this.totalDocs;
           }
         }
@@ -129,32 +136,6 @@ export class AssignmentsComponent implements OnInit {
     }
   }
 
-  sortData(sort: Sort) {
-    const data = this.dataSourceSorted.slice();
-    if (!sort.active || sort.direction === '') {
-      this.dataSourceSorted = data;
-      return;
-    }
-
-    this.dataSourceSorted = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'id':
-          return this.compare(a.nom, b.nom, isAsc);
-        case 'nom':
-          return this.compare(a.id, b.id, isAsc);
-        case 'dateDeRendu':
-          return this.compare(a.dateDeRendu, b.dateDeRendu, isAsc);
-        default:
-          return 0;
-      }
-    });
-  }
-
-  compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
-
   onDelete(assignment?:Assignment) {
     if (assignment) {
       this.assignmentsService
@@ -187,6 +168,10 @@ export class AssignmentsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  isAdmin() {
+    return this.authService.loggedIn;
   }
 }
 

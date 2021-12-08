@@ -7,13 +7,13 @@
     </a>
   </div>
 
-  <h2>Liste des assignments :</h2>
+  <h2>Liste des assignments </h2>
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+    <table mat-table [dataSource]="dataSource" matSort>
 
       <!-- ID Column -->
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="id" sortActionDescription="Sort by id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
           ID
         </th>
         <td mat-cell *matCellDef="let assignment"> {{assignment.id}} </td>
@@ -21,7 +21,7 @@
 
       <!-- Name Column -->
       <ng-container matColumnDef="nom">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="nom" sortActionDescription="Sort by nom">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by nom">
           Nom
         </th>
           <td mat-cell *matCellDef="let assignment">
@@ -36,7 +36,7 @@
 
       <!-- Date Column -->
       <ng-container matColumnDef="dateDeRendu">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="dateDeRendu" sortActionDescription="Sort by date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by date">
           Date De Rendu
         </th>
         <td mat-cell *matCellDef="let assignment"> {{assignment.dateDeRendu | date}} </td>
@@ -54,7 +54,7 @@
       <ng-container matColumnDef="update">
         <th mat-header-cell *matHeaderCellDef> Update </th>
         <td mat-cell *matCellDef="let assignment">
-          <button mat-icon-button color="accent" (click)="onClickEdit(assignment)">
+          <button mat-icon-button color="accent" (click)="onClickEdit(assignment)" [disabled]="!isAdmin()">
             <mat-icon class="mat-18">system_update</mat-icon>
           </button>
         </td>
@@ -64,7 +64,7 @@
       <ng-container matColumnDef="delete">
         <th mat-header-cell *matHeaderCellDef> Delete </th>
         <td mat-cell *matCellDef="let assignment">
-          <button mat-icon-button color="warn" (click)="openDialog(assignment)">
+          <button mat-icon-button color="warn" (click)="openDialog(assignment)" [disabled]="!isAdmin()">
             <mat-icon class="mat-18">delete</mat-icon>
           </button>
         </td>

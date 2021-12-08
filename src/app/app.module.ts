@@ -31,6 +31,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment.component';
 import { AppyLoginComponent } from './assignments/appy-login/appy-login.component';
 import { DialogContentComponentComponent } from './assignments/dialog-content-component/dialog-content-component.component';
+import { LogButtonsComponent } from './log-buttons/log-buttons.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +42,8 @@ import { DialogContentComponentComponent } from './assignments/dialog-content-co
     AddAssignmentComponent,
     EditAssignmentComponent,
     AppyLoginComponent,
-    DialogContentComponentComponent
+    DialogContentComponentComponent,
+    LogButtonsComponent
   ],
   imports: [
     BrowserModule, FormsModule,

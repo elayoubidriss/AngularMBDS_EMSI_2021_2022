@@ -22,13 +22,14 @@ export class AppyLoginComponent implements OnInit {
   }
 
   onSubmit() {
-    if(this.uform != this.username || this.pform != this.password) {
-      this.loginInvalid = true;
+    for(var cre of this.authService.credentials) {
+      if(this.uform == cre.username && this.pform == cre.password) {
+        this.authService.logIn();
+        this.router.navigate(['/home']);
+        break;
+      }
     }
-    else {
-      this.authService.logIn();
-      this.router.navigate(['/home']);
-    }
+    this.loginInvalid = true;
   }
 
 }

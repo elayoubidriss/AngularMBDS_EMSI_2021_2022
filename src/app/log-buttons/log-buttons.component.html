@@ -1,0 +1,14 @@
+<main class="container">
+    <div class="ajouterBtn">
+        <a routerLink="" *ngIf="checkLog()">
+            <button mat-flat-button color="accent" (click)="deco()">
+                Deconnexion
+            </button>
+        </a>
+        <a routerLink="" *ngIf="!checkLog()">
+            <button mat-flat-button color="primary">
+                Se connecter
+            </button>
+        </a>
+    </div>
+</main>

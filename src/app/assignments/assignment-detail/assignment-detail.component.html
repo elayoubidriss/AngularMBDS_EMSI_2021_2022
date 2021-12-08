@@ -11,6 +11,6 @@
         [disabled]="!isAdmin()">
           EDIT
         </button>
-    <button mat-raised-button color="warn" (click)="onDelete()">DELETE</button>
+    <button mat-raised-button color="warn" (click)="onDelete()" [disabled]="!isAdmin()">DELETE</button>
   </div>
 </mat-card>
