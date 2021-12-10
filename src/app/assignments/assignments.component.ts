@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import { DialogContentComponentComponent } from './dialog-content-component/dialog-content-component.component';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-assignments',
@@ -51,7 +52,8 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
               private _liveAnnouncer: LiveAnnouncer,
               private router: Router,
               private dialog: MatDialog,
-              private dialogComponent: DialogContentComponentComponent) {
+              private dialogComponent: DialogContentComponentComponent,
+              private _snackBar:MatSnackBar) {
               }
 
   ngOnInit(): void {
@@ -142,6 +144,7 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
         .deleteAssignment(assignment)
         .subscribe((reponse) => {
           console.log(reponse.message);
+          this._snackBar.open(reponse.message, 'OK');
           // on retourne à la page d'accueil APRES qu'on soit sur
           // que la suppression ait bien été effectuée
           this.router.navigate(['/home']);

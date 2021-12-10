@@ -32,6 +32,8 @@ import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assi
 import { AppyLoginComponent } from './assignments/appy-login/appy-login.component';
 import { DialogContentComponentComponent } from './assignments/dialog-content-component/dialog-content-component.component';
 import { LogButtonsComponent } from './log-buttons/log-buttons.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +52,7 @@ import { LogButtonsComponent } from './log-buttons/log-buttons.component';
     BrowserAnimationsModule, MatButtonModule, MatIconModule, MatDividerModule,
     MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule,
     MatListModule, MatCardModule, MatCheckboxModule, MatSlideToggleModule,
-    MatSliderModule,MatTableModule, MatSortModule,
+    MatSliderModule,MatTableModule, MatSortModule, MatSnackBarModule,
     HttpClientModule, MatPaginatorModule, MatDialogModule,
     RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})
   ],

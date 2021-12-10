@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { Assignment } from '../assignment.model';
@@ -17,7 +18,8 @@ export class EditAssignmentComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private assignmentsService: AssignmentsService,
-    private router: Router
+    private router: Router,
+    private _snackBar:MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -52,6 +54,7 @@ export class EditAssignmentComponent implements OnInit {
       .updateAssignment(this.assignment)
       .subscribe((reponse) => {
         console.log(reponse.message);
+        this._snackBar.open(reponse.message, 'OK');
 
         // navigation vers la home page
         this.router.navigate(['/home']);

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
+import { AuthService } from 'src/app/shared/auth.service';
 import { Assignment } from '../assignment.model';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-add-assignment',
@@ -14,7 +16,9 @@ export class AddAssignmentComponent implements OnInit {
   dateDeRendu?: Date;
 
   constructor(private assignmentsService:AssignmentsService,
-              private router:Router) {}
+              private router:Router,
+              private authService:AuthService,
+              private _snackBar: MatSnackBar) {}
 
   ngOnInit(): void {}
 
@@ -33,7 +37,7 @@ export class AddAssignmentComponent implements OnInit {
       this.assignmentsService.addAssignment(newAssignement)
       .subscribe(reponse => {
         console.log(reponse.message);
-
+        this._snackBar.open(reponse.message, 'OK');
         // on est sur que l'ajout a bien été effectué
         // il reste à naviguer vers la page d'accueil pour
         // afficher la liste avec le nouvel assignment inséré
@@ -42,5 +46,9 @@ export class AddAssignmentComponent implements OnInit {
         this.router.navigate(["/home"]);
       })
     }
+  }
+
+  isAdmin() {
+    return this.authService.loggedIn;
   }
 }

@@ -12,7 +12,7 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
-  <button mat-stroked-button color="primary">
+  <button mat-stroked-button color="primary" [disabled]="!isAdmin()">
     Ajouter un devoir
   </button>
 </form>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { AuthService } from 'src/app/shared/auth.service';
@@ -16,7 +17,8 @@ export class AssignmentDetailComponent implements OnInit {
     private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +40,7 @@ export class AssignmentDetailComponent implements OnInit {
       .updateAssignment(this.assignmentTransmis)
       .subscribe((reponse) => {
         console.log(reponse.message);
-
+        this._snackBar.open(reponse.message, 'OK');
         // on revient à la page d'accueil
         this.router.navigate(['/home']);
       });
@@ -50,6 +52,7 @@ export class AssignmentDetailComponent implements OnInit {
         .deleteAssignment(this.assignmentTransmis)
         .subscribe((reponse) => {
           console.log(reponse.message);
+          this._snackBar.open(reponse.message, 'OK');
           // on retourne à la page d'accueil APRES qu'on soit sur
           // que la suppression ait bien été effectuée
           this.router.navigate(['/home']);

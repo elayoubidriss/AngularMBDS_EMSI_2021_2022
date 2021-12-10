@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { Assignment } from '../assignment.model';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class DialogContentComponentComponent implements OnInit {
   @Input() assignmentDelete?: Assignment;
 
   constructor(private assignmentsService: AssignmentsService,
-              private router:Router) { }
+              private router:Router,
+              private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
@@ -30,6 +32,7 @@ export class DialogContentComponentComponent implements OnInit {
         .deleteAssignment(this.assignmentDelete)
         .subscribe((reponse) => {
           console.log(reponse.message);
+          this._snackBar.open(reponse.message, 'OK');
           // on retourne à la page d'accueil APRES qu'on soit sur
           // que la suppression ait bien été effectuée
           this.router.navigate(['/home']);
