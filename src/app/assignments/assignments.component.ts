@@ -17,7 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './assignments.component.html',
   styleUrls: ['./assignments.component.css'],
 })
-export class AssignmentsComponent implements OnInit, AfterViewInit {
+export class AssignmentsComponent implements OnInit {
   couleur = 'orange';
   ajoutActive = false;
 
@@ -43,9 +43,8 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
   pageSize = 20;
   pageSizeOptions: number[] = [5, 10, 25, 50];
 
-  dataSource = new MatTableDataSource<Assignment>();
-
-  @ViewChild(MatSort) sort!: MatSort;
+  dataSource:Assignment[] = [];
+  sortedData:Assignment[] = [];
 
   constructor(private assignmentsService: AssignmentsService,
               private authService:AuthService,
@@ -54,6 +53,7 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
               private dialog: MatDialog,
               private dialogComponent: DialogContentComponentComponent,
               private _snackBar:MatSnackBar) {
+                this.sortedData = this.dataSource.slice();
               }
 
   ngOnInit(): void {
@@ -65,11 +65,8 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
     this.pageEvent = this.getEvent();
     this.assignmentsService.getAssignmentsPagine(0,20).subscribe((data)=>{
       this.dataSource = data.docs;
+      this.sortedData = this.dataSource.slice();
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
   }
 
   getAssignments() {
@@ -95,6 +92,7 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
         } else {
           if(this.pageEvent) {
             this.dataSource = response.docs;
+            this.sortedData = this.dataSource.slice();
             this.length = this.totalDocs;
           }
         }
@@ -176,6 +174,33 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
   isAdmin() {
     return this.authService.loggedIn;
   }
+
+  sortData(sort: Sort) {
+    const data = this.dataSource.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedData = data;
+      return;
+    }
+
+    this.sortedData = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'id':
+          return compare(a.id, b.id, isAsc);
+        case 'nom':
+          return compare(a.nom, b.nom, isAsc);
+        case 'dateDeRendu':
+          return compare(a.dateDeRendu, b.dateDeRendu, isAsc);
+        default:
+          return 0;
+      }
+    });
+  }
 }
+
+function compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+}
+
 
 

@@ -9,11 +9,11 @@
 
   <h2>Liste des assignments </h2>
   <div class="example-container mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort>
+    <table mat-table [dataSource]="sortedData" matSort (matSortChange)="sortData($event)">
 
       <!-- ID Column -->
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="id">
           ID
         </th>
         <td mat-cell *matCellDef="let assignment"> {{assignment.id}} </td>
@@ -21,7 +21,7 @@
 
       <!-- Name Column -->
       <ng-container matColumnDef="nom">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by nom">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="nom">
           Nom
         </th>
         <td mat-cell *matCellDef="let assignment">
@@ -36,7 +36,7 @@
 
       <!-- Date Column -->
       <ng-container matColumnDef="dateDeRendu">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="dateDeRendu">
           Date De Rendu
         </th>
         <td mat-cell *matCellDef="let assignment"> {{assignment.dateDeRendu | date}} </td>
