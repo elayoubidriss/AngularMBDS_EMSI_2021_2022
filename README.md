@@ -1,14 +1,16 @@
-# AssignmentApp
+# AssignmentApp Driss EL AYOUBI MBDS EMSI CASA
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.3.
+Bonjour Mr BUFFA, voici l'application Assignment que j'ai modifiée selon les consignes que vous nous avez fournies. En l'occurrence, j'ai effectué les modifications suivantes :
 
-## Development server
+## Interface Login
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+J'ai implémenté un nouveau component appy-login dans lequel j'ai développé le login en mode statique dans le serveur d'authentification ( un tableau contenant les informations de 2 users ). D'ailleurs, utilisez les identifiants suivants pour vous connecter : Login : user1
+                                                                                Password : user1Password
+J'ai aussi ajouté deux boutons "Se connecter" et "Deconnexion" : le premier s'affiche si l'utilisateur est déconnecté et vice-versa. Ils renvoient tous les deux l'utilisateur vers le component de login via un Router.
 
-## Code scaffolding
+## Table
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+J'ai utilisé le module MatTableModule pour créer une table Angular Material et l'utiliser pour afficher les données au lieu de la liste. 
 
 ## Build
 
